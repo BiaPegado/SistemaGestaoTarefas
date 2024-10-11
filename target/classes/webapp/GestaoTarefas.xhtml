@@ -31,22 +31,21 @@
 			</div>
 			<div class="corpo">
 				<div class="menu">
-					<ui:insert name="bodyMenu">
-						<h:form>
-							<div class="card">
-								<p:menu>
-									<p:submenu label="Ações">
-										<p:menuitem value="Cadastrar Tarefa"
-											action="Index?faces-redirect=true" />
-										<p:menuitem value="Listar Tarefa"
-											action="ListarTarefas?faces-redirect=true" />
-										<p:menuitem value="Modificar Tarefa"
-											action="GestaoTarefas?faces-redirect=true" />
-									</p:submenu>
-								</p:menu>
-							</div>
-						</h:form>
-					</ui:insert>
+
+					<h:form>
+						<div class="card">
+							<p:menu>
+								<p:submenu label="Ações">
+									<p:menuitem value="Cadastrar Tarefa"
+										action="Index?faces-redirect=true" />
+									<p:menuitem value="Listar Tarefa"
+										action="ListarTarefas?faces-redirect=true" />
+									<p:menuitem value="Modificar Tarefa"
+										action="GestaoTarefas?faces-redirect=true" />
+								</p:submenu>
+							</p:menu>
+						</div>
+					</h:form>
 				</div>
 				<div class="conteudo">
 					<h:form>
@@ -58,17 +57,23 @@
 							<p:outputLabel value="Código da tarefa: " for="codigo" />
 							<p:inputText value="#{tarefasBean.codigo}" id="codigo" />
 
-							<p:outputLabel value="Situação: " for="situacao" />
-							<h:selectOneMenu value="#{tarefasBean.situacao}" id="situacao">
-								<f:selectItem itemLabel="EM ANDAMENTO" itemValue="EM_ANDAMENTO" />
+							<p:outputLabel value="Situação: " for="situacaoChave" />
+							<h:selectOneMenu value="#{tarefasBean.situacaoChave}"
+								id="situacaoChave">
+								<f:selectItem itemLabel="EM ANDAMENTO" itemValue="EM ANDAMENTO" />
 								<f:selectItem itemLabel="CONCLUIDA" itemValue="CONCLUIDA" />
 							</h:selectOneMenu>
 
-							<f:facet name="footer" align="center">
+							<f:facet name="footer">
 								<p:commandButton value="Enviar"
-									action="#{tarefasBean.modificaTarefa}"
+									action="#{tarefasBean.modificarTarefa}"
 									update="formGestaoTarefas:tabelaGestaoTarefas">
-									<f:ajax execute="codigo situacao" />
+									<f:ajax execute="codigo situacaoChave" />
+								</p:commandButton>
+								<p:commandButton value="Deletar"
+									action="#{tarefasBean.deletarTarefa}"
+									update="formGestaoTarefas:tabelaGestaoTarefas">
+									<f:ajax execute="codigo" />
 								</p:commandButton>
 							</f:facet>
 						</p:panelGrid>
@@ -78,7 +83,8 @@
 					<h:form id="formGestaoTarefas">
 						<h:dataTable border="1" cellspacing="1" cellpadding="5"
 							value="#{tarefasBean.listaTarefas}" var="celulaGestaoTarefas"
-							styleClass="tabela" headerClass="tabelaTitle" id="tabelaGestaoTarefas">
+							styleClass="tabela" headerClass="tabelaTitle"
+							id="tabelaGestaoTarefas">
 							<h:column>
 								<f:facet name="header">
 									<h:outputText value="Código" />
@@ -119,7 +125,8 @@
 								<f:facet name="header">
 									<h:outputText value="Situação" />
 								</f:facet>
-								<h:outputText value="#{celulaGestaoTarefas.situacao}" />
+								<h:outputText
+									value="#{celulaGestaoTarefas.situacao ? 'CONCLUIDA' : 'EM ANDAMENTO'}" />
 							</h:column>
 						</h:dataTable>
 					</h:form>

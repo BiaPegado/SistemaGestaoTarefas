@@ -6,7 +6,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
-<f:metadata>]
+<f:metadata>
 	<f:viewAction action="#{tarefasBean.listarTarefasComCampo}" />
 </f:metadata>
 <h:head>
@@ -64,9 +64,10 @@
 							<p:outputLabel value="Responsável: " for="responsavel" />
 							<p:inputText value="#{tarefasBean.responsavel}" id="responsavel" />
 
-							<p:outputLabel value="Situação: " for="situacao" />
-							<h:selectOneMenu value="#{tarefasBean.situacao}" id="situacao">
-								<f:selectItem itemLabel="EM ANDAMENTO" itemValue="EM_ANDAMENTO" />
+							<p:outputLabel value="Situação: " for="situacaoChave" />
+							<h:selectOneMenu value="#{tarefasBean.situacaoChave}" id="situacaoChave">
+								<f:selectItem itemLabel="Selecione" itemValue="Selecione" />
+								<f:selectItem itemLabel="EM ANDAMENTO" itemValue="EM ANDAMENTO" />
 								<f:selectItem itemLabel="CONCLUIDA" itemValue="CONCLUIDA" />
 							</h:selectOneMenu>
 
@@ -74,7 +75,7 @@
 								<p:commandButton value="Enviar"
 									action="#{tarefasBean.listarTarefasComCampo}"
 									update="formListarTarefas:tabelaListarTarefas">
-									<f:ajax execute="codigo titulo responsavel situacao" />
+									<f:ajax execute="codigo titulo responsavel situacaoChave" />
 
 								</p:commandButton>
 							</f:facet>
@@ -126,7 +127,7 @@
 								<f:facet name="header">
 									<h:outputText value="Situação" />
 								</f:facet>
-								<h:outputText value="#{celulaListarTarefas.situacao}" />
+								<h:outputText value="#{celulaListarTarefas.situacao ? 'CONCLUIDA' : 'EM ANDAMENTO'}" />
 							</h:column>
 						</h:dataTable>
 					</h:form>

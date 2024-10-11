@@ -1,7 +1,9 @@
 package Control;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -11,25 +13,43 @@ import javax.persistence.Persistence;
 
 import DAO.DAOTarefa;
 import Model.Tarefa;
+import Model.Tarefa.Situacao;
 
 @ManagedBean
 @ViewScoped
 public class TarefasBean implements Serializable {
 	private int codigo;
-	private String situacao;
 	private String titulo;
 	private String descricao;
 	private String responsavel;
 	private String deadline;
 	private String prioridade;
+	private Map<String, Boolean> situacao;
 	private List<Tarefa> listaTarefas;
 	private List<Tarefa> listaTarefasComCampo;
+	private String situacaoChave;
+	private DAOTarefa dao;
 	
-	public String getSituacao() {
+	public String getSituacaoChave() {
+		return situacaoChave;
+	}
+
+	public void setSituacaoChave(String situacaoChave) {
+		this.situacaoChave = situacaoChave;
+	}
+	
+	public TarefasBean() {
+		dao = new DAOTarefa();
+		this.situacao = new HashMap<>();
+		situacao.put("EM ANDAMENTO", false);
+		situacao.put("CONCLUIDA", true);
+	}
+	
+	public  Map<String, Boolean> getSituacao() {
 		return situacao;
 	}
 
-	public void setSituacao(String situacao) {
+	public void setSituacao (Map<String, Boolean> situacao) {
 		this.situacao = situacao;
 	}
 
@@ -108,34 +128,33 @@ public class TarefasBean implements Serializable {
 	public void listarTarefasComCampo() {
 		DAOTarefa dao = new DAOTarefa();
 		
-		listaTarefasComCampo = dao.listarTarefasComCampo(codigo, titulo, responsavel, situacao);
+		listaTarefasComCampo = dao.listarTarefasComCampo(codigo, titulo, responsavel, situacaoChave);
 		
 		dao.getManager().close();
 	}
 
 	public void adicionarTarefa() {
-		DAOTarefa dao = new DAOTarefa();
 		Tarefa tarefa = new Tarefa();
-
 		tarefa.setResponsavel(responsavel);
 		tarefa.setDeadline(deadline);
 		tarefa.setDescricao(descricao);
 		tarefa.setPrioridade(prioridade);
-		tarefa.setSituacao("EM_ANDAMENTO");			//enum
+		tarefa.setSituacao(false);			
 		tarefa.setTitulo(titulo);
 		
 		dao.adicionarTarefa(tarefa);
-		
-		dao.getManager().close();
+		}
+	
+	public void modificarTarefa() {
+		dao.modTarefa(codigo, situacaoChave);
+		listarTarefas();
 		
 	}
 	
-	public void modificaTarefa() {
-		DAOTarefa dao = new DAOTarefa();
-		
-		dao.modTarefa(codigo, situacao);
+	public void deletarTarefa() {
+		dao.delTarefa(codigo);
 		listarTarefas();
-		dao.getManager().close();
+		
 	}
 
 	

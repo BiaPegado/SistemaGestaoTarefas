@@ -2,19 +2,26 @@ package DAO;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import Model.Tarefa;
+import Model.Tarefa.Situacao;
 import Util.JpaUtil;
 
 public class DAOTarefa implements Serializable {
 	private EntityManager manager;
+	private Map<String, Boolean> situacao;
 
 	public DAOTarefa() {
 		this.manager = JpaUtil.getEntityManagerPostgre();
+		this.situacao = new HashMap<>();
+		situacao.put("EM ANDAMENTO", false);
+		situacao.put("CONCLUIDA", true);
 	}
 
 	public void adicionarTarefa(Tarefa tarefa) {
@@ -42,7 +49,7 @@ public class DAOTarefa implements Serializable {
 		return tarefas;
 	}
 	
-	public List<Tarefa> listarTarefasComCampo(int cod, String titulo, String responsavel, String situacao) {
+	public List<Tarefa> listarTarefasComCampo(int cod, String titulo, String responsavel, String situacaoChave) {
 		List<Tarefa> tarefas = null;
 		String query;
 		try {
@@ -57,7 +64,7 @@ public class DAOTarefa implements Serializable {
 	        if (responsavel != null && !responsavel.isEmpty()) {
 	        	query += " AND t.responsavel LIKE :responsavel";
 	        }
-	        if (situacao != null && !situacao.isEmpty()) {
+	        if (situacaoChave != null) {
 	        	query += " AND t.situacao = :situacao";
 	        }
 	        
@@ -72,8 +79,8 @@ public class DAOTarefa implements Serializable {
 	        if (responsavel != null && !responsavel.isEmpty()) {
 	            query2.setParameter("responsavel", "%" + responsavel + "%");  
 	        }
-	        if (situacao != null && !situacao.isEmpty()) {
-	            query2.setParameter("situacao", situacao);
+	        if (situacaoChave != null) {
+	            query2.setParameter("situacao", this.situacao.get(situacaoChave));
 	        }
 	        tarefas = query2.getResultList();
 	    } catch (Exception e) {
@@ -82,13 +89,10 @@ public class DAOTarefa implements Serializable {
 		return tarefas;
 	}
 	
-	public void modTarefa(int cod, String situacao) {
-		Tarefa tarefaModificada = new Tarefa();
-		
-		TypedQuery<Tarefa> tarefa = manager.createQuery("SELECT t FROM Tarefa t WHERE t.codigo = :cod", Tarefa.class);
-        tarefa.setParameter("cod", cod);
-		tarefaModificada = tarefa.getSingleResult();
-		tarefaModificada.setSituacao(situacao);
+	public void modTarefa(int cod,  String situacaoChave) {
+		Tarefa tarefaModificada = manager.find(Tarefa.class, cod);
+		tarefaModificada.setSituacao(situacao.get(situacaoChave));
+		System.out.println(situacaoChave);
 		
 		try {
 			manager.getTransaction().begin();
@@ -97,14 +101,24 @@ public class DAOTarefa implements Serializable {
 		} catch (Exception e) {
 			manager.getTransaction().rollback();
 			e.printStackTrace();
-		} finally {
-			//manager.close();
 		}
-		
 	}
 
 	public EntityManager getManager() {
 		return manager;
 	}
+	
+	public void delTarefa(int cod) {
+		Tarefa tarefa = manager.find(Tarefa.class, cod);
+		try {
+			manager.getTransaction().begin();
+			manager.remove(tarefa);
+			manager.getTransaction().commit();
+		} catch (Exception e) {
+			manager.getTransaction().rollback();
+			e.printStackTrace();
+		}
+	}
+	
 
 }

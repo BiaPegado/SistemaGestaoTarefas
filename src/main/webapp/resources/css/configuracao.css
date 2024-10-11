@@ -26,7 +26,7 @@
 .tabela {
     background: lightgrey;
     max-height: 250px;
-    max-width: 500px; 
+    max-width: 780px; 
     margin:40px;
     overflow-y: auto;  
     overflow-x: auto;
@@ -59,4 +59,5 @@
 .conteudoTabela {
 	background: lightgrey;
 	align-content: center;
+	width:100%
 }
