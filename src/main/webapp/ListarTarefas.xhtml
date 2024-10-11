@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:metadata>]
+	<f:viewAction action="#{tarefasBean.listarTarefasComCampo}" />
+</f:metadata>
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<h:outputStylesheet library="css" name="configuracao.css" />
+	<h:outputScript library="script" name="script.js" />
+</h:head>
+<h:body>
+	<center>
+		<div class="pagina">
+			<div class="cabeçalho">
+				<div class="logo">
+					<h:graphicImage library="img" name="esig_group_logo.jpg" />
+				</div>
+				<div class="cabeçalhoConteudo">
+					<div>
+						<h1>
+							<h:outputText value="Sistema de Gestão de Tarefas" id="texto" />
+						</h1>
+					</div>
+				</div>
+			</div>
+			<div class="corpo">
+				<div class="menu">
+					<ui:insert name="bodyMenu">
+						<h:form>
+							<div class="card">
+								<p:menu>
+									<p:submenu label="Ações">
+										<p:menuitem value="Cadastrar Tarefa"
+											action="Index?faces-redirect=true" />
+										<p:menuitem value="Listar Tarefa"
+											action="ListarTarefas?faces-redirect=true" />
+										<p:menuitem value="Modificar Tarefa"
+											action="GestaoTarefas?faces-redirect=true" />
+									</p:submenu>
+								</p:menu>
+							</div>
+						</h:form>
+					</ui:insert>
+				</div>
+				<div class="conteudo">
+					<h:form>
+						<p:panelGrid columns="2">
+							<f:facet name="header">
+								<h:outputText value="Insira as informações da tarefa" />
+							</f:facet>
+
+							<p:outputLabel value="Código: " for="codigo" />
+							<p:inputText value="#{tarefasBean.codigo}" id="codigo" />
+
+							<p:outputLabel value="Titulo da tarefa: " for="titulo" />
+							<p:inputText value="#{tarefasBean.titulo}" id="titulo" />
+
+							<p:outputLabel value="Responsável: " for="responsavel" />
+							<p:inputText value="#{tarefasBean.responsavel}" id="responsavel" />
+
+							<p:outputLabel value="Situação: " for="situacao" />
+							<h:selectOneMenu value="#{tarefasBean.situacao}" id="situacao">
+								<f:selectItem itemLabel="EM ANDAMENTO" itemValue="EM_ANDAMENTO" />
+								<f:selectItem itemLabel="CONCLUIDA" itemValue="CONCLUIDA" />
+							</h:selectOneMenu>
+
+							<f:facet name="footer" align="center">
+								<p:commandButton value="Enviar"
+									action="#{tarefasBean.listarTarefasComCampo}"
+									update="formListarTarefas:tabelaListarTarefas">
+									<f:ajax execute="codigo titulo responsavel situacao" />
+
+								</p:commandButton>
+							</f:facet>
+						</p:panelGrid>
+					</h:form>
+				</div>
+				<div class="conteudoTabela">
+					<h:form id="formListarTarefas">
+						<h:dataTable border="1" cellspacing="1" cellpadding="5"
+							value="#{tarefasBean.listaTarefasComCampo}" var="celulaListarTarefas"
+							styleClass="tabela" headerClass="tabelaTitle" id="tabelaListarTarefas">
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="Código" />
+								</f:facet>
+								<h:outputText value="#{celulaListarTarefas.codigo}" />
+							</h:column>
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="Título" />
+								</f:facet>
+								<h:outputText value="#{celulaListarTarefas.titulo}" />
+							</h:column>
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="Descrição" />
+								</f:facet>
+								<h:outputText value="#{celulaListarTarefas.descricao}" />
+							</h:column>
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="Prioridade" />
+								</f:facet>
+								<h:outputText value="#{celulaListarTarefas.prioridade}" />
+							</h:column>
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="Deadline" />
+								</f:facet>
+								<h:outputText value="#{celulaListarTarefas.deadline}" />
+							</h:column>
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="Responsável" />
+								</f:facet>
+								<h:outputText value="#{celulaListarTarefas.responsavel}" />
+							</h:column>
+							<h:column>
+								<f:facet name="header">
+									<h:outputText value="Situação" />
+								</f:facet>
+								<h:outputText value="#{celulaListarTarefas.situacao}" />
+							</h:column>
+						</h:dataTable>
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</center>
+
+	<div class="rodape"></div>
+</h:body>
+</html>
