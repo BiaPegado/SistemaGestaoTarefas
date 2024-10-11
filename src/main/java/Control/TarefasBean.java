@@ -13,7 +13,6 @@ import javax.persistence.Persistence;
 
 import DAO.DAOTarefa;
 import Model.Tarefa;
-import Model.Tarefa.Situacao;
 
 @ManagedBean
 @ViewScoped
@@ -146,13 +145,13 @@ public class TarefasBean implements Serializable {
 		}
 	
 	public void modificarTarefa() {
-		dao.modTarefa(codigo, situacaoChave);
+		dao.modificarTarefa(codigo, situacaoChave);
 		listarTarefas();
 		
 	}
 	
 	public void deletarTarefa() {
-		dao.delTarefa(codigo);
+		dao.deletarTarefa(codigo);
 		listarTarefas();
 		
 	}

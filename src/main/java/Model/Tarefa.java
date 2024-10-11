@@ -34,12 +34,6 @@ public class Tarefa implements Serializable{
 		this.codigo = codigo;
 	}
 	
-	public enum Situacao{
-		Selecione,
-		EM_ANDAMENTO,
-		CONCLUIDO
-	}
-	
 	@Column (nullable = false, length=50)
 	public String getTitulo() {
 		return titulo;

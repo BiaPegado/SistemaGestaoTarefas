@@ -10,7 +10,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import Model.Tarefa;
-import Model.Tarefa.Situacao;
 import Util.JpaUtil;
 
 public class DAOTarefa implements Serializable {
@@ -32,9 +31,7 @@ public class DAOTarefa implements Serializable {
 		} catch (Exception e) {
 			manager.getTransaction().rollback();
 			e.printStackTrace();
-		} finally {
-			//manager.close();
-		}
+		} 
 	}
 
 	public List<Tarefa> listarTarefas() {
@@ -89,7 +86,7 @@ public class DAOTarefa implements Serializable {
 		return tarefas;
 	}
 	
-	public void modTarefa(int cod,  String situacaoChave) {
+	public void modificarTarefa(int cod,  String situacaoChave) {
 		Tarefa tarefaModificada = manager.find(Tarefa.class, cod);
 		tarefaModificada.setSituacao(situacao.get(situacaoChave));
 		System.out.println(situacaoChave);
@@ -108,7 +105,7 @@ public class DAOTarefa implements Serializable {
 		return manager;
 	}
 	
-	public void delTarefa(int cod) {
+	public void deletarTarefa(int cod) {
 		Tarefa tarefa = manager.find(Tarefa.class, cod);
 		try {
 			manager.getTransaction().begin();
