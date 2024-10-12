@@ -10,11 +10,12 @@
 	<f:viewAction action="#{tarefasBean.listarTarefasComCampo}" />
 </f:metadata>
 <h:head>
+	<title>Sistema de Gestão de Tarefas</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<h:outputStylesheet library="css" name="configuracao.css" />
 	<h:outputScript library="script" name="script.js" />
 </h:head>
-<h:body>
+<h:body class="body">
 	<center>
 		<div class="pagina">
 			<div class="cabeçalho">
@@ -72,7 +73,7 @@
 							</h:selectOneMenu>
 
 							<f:facet name="footer" align="center">
-								<p:commandButton value="Enviar"
+								<p:commandButton value="Listar"
 									action="#{tarefasBean.listarTarefasComCampo}"
 									update="formListarTarefas:tabelaListarTarefas">
 									<f:ajax execute="codigo titulo responsavel situacaoChave" />
