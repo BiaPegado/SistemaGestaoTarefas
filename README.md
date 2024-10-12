@@ -10,6 +10,11 @@
 * Listar Tarefas: Visualizar todas as tarefas cadastradas.
 * Filtrar Tarefas: Filtrar tarefas por status (completa/incompleta). 
 
+## Páginas
+* Index.xhtml: Página inicial, permite cadastrar tarefas.
+* ListarTarefas.xhtml: Permite buscar de tarefas.
+* GestaoTarefas.xhtml: Permite moodificar e excluir tarefas.
+
 ## Tecnologias Utilizadas
 * Java
 * JavaServer Faces
@@ -25,9 +30,11 @@
 * Apache Tomcat
 * Eclipse
 
-### Para conexão de um banco de dados local, abra **AplicacaoEventoSelecao\\src\\main\\java\\META-INF\\persistence.xml** e edite as seguintes linhas:
+### Para conexão em um banco de dados local
+####Abra **AplicacaoEventoSelecao\\src\\main\\java\\META-INF\\persistence.xml** e edite as seguintes linhas:
 * Linha 15: usuario do banco
 * Linha 16: senha do usuario do banco
+#### Execute o index.xhtml para abrir a página inicial do programa.
 
 ### Testes unitários
 #### Para Executar os testes unitários, execute o AplicacaoEventoSelecao como Maven test ou JUnit test.
