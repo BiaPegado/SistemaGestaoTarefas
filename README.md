@@ -13,7 +13,7 @@
 ## Páginas
 * Index.xhtml: Página inicial, permite cadastrar tarefas.
 * ListarTarefas.xhtml: Permite buscar de tarefas.
-* GestaoTarefas.xhtml: Permite moodificar e excluir tarefas.
+* GestaoTarefas.xhtml: Permite modificar e excluir tarefas.
 
 ## Tecnologias Utilizadas
 * Java
