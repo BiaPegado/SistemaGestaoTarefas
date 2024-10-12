@@ -31,7 +31,7 @@
 * Eclipse
 
 ### Para conexão em um banco de dados local
-####Abra **AplicacaoEventoSelecao\\src\\main\\java\\META-INF\\persistence.xml** e edite as seguintes linhas:
+#### Abra **AplicacaoEventoSelecao\\src\\main\\java\\META-INF\\persistence.xml** e edite as seguintes linhas:
 * Linha 15: usuario do banco
 * Linha 16: senha do usuario do banco
 #### Execute o index.xhtml para abrir a página inicial do programa.
